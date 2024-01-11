@@ -58,15 +58,15 @@ BEGIN
         HASHBYTES(''MD5'', CONCAT(' + STUFF((SELECT ', ' + 'LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(REPLACE(' + QUOTENAME(c.name) + ', CHAR(10), CHAR(32)),CHAR(13), CHAR(32)),CHAR(160), CHAR(32)),CHAR(9),CHAR(32))))'
         FROM sys.columns c 
         WHERE c.object_id = OBJECT_ID(@schema1 + '.' + @tableName1) 
-            AND c.name NOT LIKE '%Process_DateTime%' 
-            AND c.name NOT LIKE '%CreatedDateTime%'
-            AND c.name NOT LIKE '%Created_DateTime%'
-            AND c.name NOT LIKE '%ModifiedDateTime%'
-			AND c.name NOT LIKE '%Modified_DateTime%'
-			AND c.name NOT LIKE '%DEFINITIONGROUP%'
-			AND c.name NOT LIKE '%EXECUTIONID%'
-			AND c.name NOT LIKE '%PARTITION%'
-			AND c.name NOT LIKE '%SYNCSTARTDATETIME%'
+ --         AND c.name NOT LIKE '%Process_DateTime%'  Excludes certain columns like timestamps and metadata from the hash generation to focus on meaningful data
+ --         AND c.name NOT LIKE '%CreatedDateTime%'
+ --         AND c.name NOT LIKE '%Created_DateTime%'
+ --         AND c.name NOT LIKE '%ModifiedDateTime%'
+--			AND c.name NOT LIKE '%Modified_DateTime%'
+--			AND c.name NOT LIKE '%DEFINITIONGROUP%'
+--			AND c.name NOT LIKE '%EXECUTIONID%'
+--			AND c.name NOT LIKE '%PARTITION%'
+--			AND c.name NOT LIKE '%SYNCSTARTDATETIME%'
         FOR XML PATH('')), 1, 2, '') + ')) AS HASHBYTES1
     FROM ' + QUOTENAME(@schema1) + '.' + QUOTENAME(@tableName1);
 
@@ -83,15 +83,15 @@ BEGIN
         HASHBYTES(''MD5'', CONCAT(' + STUFF((SELECT ', ' + 'LTRIM(RTRIM(REPLACE(REPLACE(REPLACE(REPLACE(' + QUOTENAME(c.name) + ', CHAR(10), CHAR(32)),CHAR(13), CHAR(32)),CHAR(160), CHAR(32)),CHAR(9),CHAR(32))))'
         FROM sys.columns c 
         WHERE c.object_id = OBJECT_ID(@schema2 + '.' + @tableName2) 
-            AND c.name NOT LIKE '%Process_DateTime%' 
-            AND c.name NOT LIKE '%CreatedDateTime%'
-            AND c.name NOT LIKE '%Created_DateTime%'
-            AND c.name NOT LIKE '%ModifiedDateTime%'
-			AND c.name NOT LIKE '%Modified_DateTime%'
-			AND c.name NOT LIKE '%DEFINITIONGROUP%'
-			AND c.name NOT LIKE '%EXECUTIONID%'
-			AND c.name NOT LIKE '%PARTITION%'
-			AND c.name NOT LIKE '%SYNCSTARTDATETIME%'
+ --         AND c.name NOT LIKE '%Process_DateTime%'  Excludes certain columns like timestamps and metadata from the hash generation to focus on meaningful data
+ --         AND c.name NOT LIKE '%CreatedDateTime%'
+ --         AND c.name NOT LIKE '%Created_DateTime%'
+ --         AND c.name NOT LIKE '%ModifiedDateTime%'
+--			AND c.name NOT LIKE '%Modified_DateTime%'
+--			AND c.name NOT LIKE '%DEFINITIONGROUP%'
+--			AND c.name NOT LIKE '%EXECUTIONID%'
+--			AND c.name NOT LIKE '%PARTITION%'
+--			AND c.name NOT LIKE '%SYNCSTARTDATETIME%'
         FOR XML PATH('')), 1, 2, '') + ')) AS HASHBYTES1
     FROM ' + QUOTENAME(@schema2) + '.' + QUOTENAME(@tableName2);
 
