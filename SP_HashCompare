@@ -7,11 +7,39 @@ CREATE OR ALTER PROCEDURE dwh.sp_HashCompare
 
 /*
 =========================================================================================
-     Procedure Name : dwh.sp_HashCompare
-     Function       : SP that allows to compare 2 tables at hash value level
-     Version        : 1.0
-     Changes Made   : New 
-     Author         : Felipe C, 15 Dec 2023
+Overview
+dwh.sp_HashCompare is a stored procedure that facilitates the comparison of two tables at the hash value level in SQL Server. 
+It is primarily used to detect discrepancies between two tables by comparing the hash values of their rows.
+
+Features
+Compares two tables by generating MD5 hash values for each row.
+Excludes certain columns like timestamps and metadata from the hash generation to focus on meaningful data.
+Reports on hash value matches and mismatches, providing insights into data consistency between tables.
+Includes row count comparisons for additional verification.
+
+Parameters
+@tableName1 NVARCHAR(MAX): Name of the first table to compare.
+@schema1 NVARCHAR(MAX): Schema of the first table.
+@tableName2 NVARCHAR(MAX): Name of the second table to compare.
+@schema2 NVARCHAR(MAX): Schema of the second table.
+
+Behavior
+Generates dynamic SQL to create MD5 hashes of each row in both tables, excluding certain system or metadata columns.
+Executes these queries and retrieves the number of rows in each table.
+Constructs and executes a comparison query to identify rows with non-matching hash values.
+Reports the comparison result, including the number of mismatched rows and the total row count for each table.
+In case of an error, captures and raises the error details.
+
+Example:
+
+EXEC dwh.sp_HashCompare 
+  @tableName1 = 'YourFirstTableName', 
+  @schema1 = 'YourFirstTableSchema',
+  @tableName2 = 'YourSecondTableName',
+  @schema2 = 'YourSecondTableSchema';
+
+
+Author         : Felipe C, 15 Dec 2023
 ========================================================================================= 
 */
 
