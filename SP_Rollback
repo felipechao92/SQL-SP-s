@@ -1,0 +1,18 @@
+Overview
+The ea.Rollback_Table stored procedure is designed to restore data from a backup table to the main table in SQL Server. This procedure is particularly useful for reverting changes made to a table by restoring its previous state from the backup.
+
+Features
+Truncates the main table and refills it with data from the backup table.
+Handles identity columns intelligently, ensuring that identity insert settings are managed correctly.
+Provides error handling to capture and raise errors during the rollback process.
+Parameters
+@backup_schema NVARCHAR(255): The schema of the backup table.
+@backup_table_name NVARCHAR(255): The name of the backup table.
+@main_schema NVARCHAR(255): The schema of the main table to be restored.
+@main_table NVARCHAR(255): The name of the main table to be restored.
+Behavior
+Truncates the main table to prepare for data restoration.
+Checks if the main table has an identity column and sets a flag accordingly.
+If the main table has an identity column, it enables identity insert and then inserts data from the backup table. Otherwise, it simply inserts data from the backup table.
+If identity insert was enabled, it is turned off after data insertion.
+In case of an error during the process, captures the error details and raises an error with the information.
